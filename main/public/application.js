@@ -6,7 +6,7 @@
 var AppConfig = (function() {
     'use strict';
     // Init module configuration options
-    var applicationModuleName = 'gae-angular-material-starter';
+    var applicationModuleName = 'gae-angular-material-init';
     var applicationModuleVendorDependencies = [
         'ngAnimate',
         'ngMessages',

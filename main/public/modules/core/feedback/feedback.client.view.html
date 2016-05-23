@@ -1,11 +1,15 @@
-<div layout="row" class="w-100" layout-align="center start">
-    <div flex flex-gt-md="90" flex-gt-lg="70">
+<div layout="row" layout-align="center start" layout-fill>
+    <div flex-sm="80" flex-md="60" flex-gt-md="50" flex md-whiteframe="1">
         <md-toolbar class="md-accent">
-            <h1 class="md-toolbar-tools">Feedback</h1>
+            <div class="md-toolbar-tools">
+                <h1>Feedback</h1>
+                <span flex></span>
+                <md-icon md-svg-icon="comment"></md-icon>
+            </div>
         </md-toolbar>
-        <md-content class="md-padding md-whiteframe-z1">
+        <md-content layout-padding>
             <form name="feedbackForm">
-                <md-input-container>
+                <md-input-container class="md-block">
                     <label>Your message</label>
                     <textarea ng-model="feedback.message"
                               name="feedback"
@@ -20,7 +24,7 @@
                         <div ng-message="required">Feedback message is required</div>
                     </div>
                 </md-input-container>
-                <md-input-container>
+                <md-input-container  class="md-block">
                     <label>Your email (optional)</label>
                     <input class="form-control"
                            name="email"

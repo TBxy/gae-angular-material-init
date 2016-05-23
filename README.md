@@ -1,6 +1,7 @@
-#GAE Angular Material Starter
+#GAE Angular Material Init
 #####Easiest way to start Google App Engine Angular Material project on Earth & Mars!
-As a base for this I've used starter projects [gae-init] and [MEANJS], so big thanks to them!
+This project is a fork of [gae-angular-material-starter], but with updated libraries and features.
+As a base for [gae-angular-material-starter] are [gae-init] and [MEANJS] used. Big thanks to all the previous projects!
 
 This full stack uses following technologies:
 * Google App Engine
@@ -9,7 +10,7 @@ This full stack uses following technologies:
 * Angular Material
 * Gulp, Bower, npm
 
-######You can see live demo here: https://gae-angular-material-starter.appspot.com/
+######You can see live demo here: https://gae-angular-material-init.appspot.com/
 
 ##What's implemented?
 * Everything about user authentication - signin, signup, forgot pass, reset pass ... and all the boring stuff is done for you :)
@@ -31,18 +32,10 @@ First make sure you've got following things installed on your machine:
 * [virtualenv][]
 
 ##Install!
-Using yeoman:
-```
-sudo npm install -g generator-gae-angular-material-starter
-mkdir myNewApp && cd myNewApp
-yo gae-angular-material-starter  # it will ask you few questions, e.g your app name, etc.
-gulp run
-```
-
 Using github:
 ```
-git clone https://github.com/madvas/gae-angular-material-starter
-cd gae-angular-material-starter
+git clone https://github.com/TBxy/gae-angular-material-init
+cd gae-angular-material-init
 npm install
 gulp run
 ```
@@ -69,6 +62,7 @@ License
 --
 MIT. Can't be more open, source ;)
 
+[gae-angular-material-starter]: https://github.com/madvas/gae-angular-material-starter
 [google app engine sdk for python]: https://developers.google.com/appengine/downloads
 [node.js]: http://nodejs.org/
 [pip]: http://www.pip-installer.org/

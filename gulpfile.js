@@ -9,7 +9,7 @@
     var inject = require('gulp-inject');
     var uglify = require('gulp-uglifyjs');
     var less = require('gulp-less');
-    var minifyCSS = require('gulp-minify-css');
+    var minifyCSS = require('gulp-clean-css');
     var concatCss = require('gulp-concat-css');
     var glob = require('glob');
     var rename = require('gulp-rename');
@@ -91,7 +91,9 @@
             cwd  : publicDir
         });
         return target.pipe(inject(sources, {
-            addPrefix : '/p'
+            addPrefix : '/p',
+            relative:true,
+            ignorePath : '/../../public'
         })).pipe(gulp.dest(injectAssetsDir));
     }
 

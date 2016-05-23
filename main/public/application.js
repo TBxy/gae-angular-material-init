@@ -45,6 +45,14 @@ angular.module(AppConfig.applicationModuleName).config([
         'use strict';
         $locationProvider.hashPrefix('!');
     }
+]).config(['$mdIconProvider', function($mdIconProvider) {
+        'use strict';
+        // see: https://design.google.com/icons/
+        // mdi.svg is downloaded from:
+        // https://materialdesignicons.com/getting-started
+        // Update is done manually!
+        $mdIconProvider.defaultIconSet('/p/core/icons/mdi.svg')
+    }
 ]);
 
 //Then define the init function for starting up the application

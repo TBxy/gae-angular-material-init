@@ -2,7 +2,7 @@
     'use strict';
     var module = angular.module('users');
 
-    module.controller('ProfileEditController', function($scope, gaBrowserHistory, gaToast, _, gaValidators, gaTracking) {
+    module.controller('ProfileEditController', function($scope, gaBrowserHistory, gaToast, _, gaValidators, gaTracking, gaUsers, $log) {
 
         if (!$scope.hasAuthorization()) {
             gaBrowserHistory.back();
@@ -17,7 +17,7 @@
         });
 
         $scope.save = function() {
-            $scope.editedUser.save().then(function() {
+            gaUsers.saveAsync($scope.editedUser,true).then(function() {
                 _.extend($scope.user, $scope.editedUser);
                 gaTracking.eventTrack('Profile edit', $scope.editedUser.username);
                 gaBrowserHistory.back();

@@ -2,8 +2,10 @@
     'use strict';
     var module = angular.module('users');
 
-    module.controller('ProfileController', function($scope, Restangular, gaAppConfig, gaAuthentication, $stateParams,
-                                                    _, $mdDialog, gaToast, $state) {
+    module.controller('ProfileController', 
+        function($scope, Restangular, gaAppConfig, gaAuthentication, 
+                    $stateParams, _, $mdDialog, gaToast, $state,
+                    gaUsers) {
         $scope.cfg = gaAppConfig;
         $scope.auth = gaAuthentication;
         $scope.isMyProfile = function() {
@@ -13,7 +15,8 @@
         if ($scope.isMyProfile()) {
             $scope.user = gaAuthentication.user;
         } else {
-            Restangular.one('users', $stateParams.username).get().then(function(user) {
+            gaUsers.getAsync({username:$stateParams.username}).then(function(user) {
+            //Restangular.one('users', $stateParams.username).get().then(function(user) {
                 $scope.user = user;
             });
         }
@@ -41,7 +44,7 @@
                 .cancel('Cancel')
                 .targetEvent(ev);
             $mdDialog.show(confirm).then(function() {
-                $scope.user.remove().then(function() {
+                gaUsers.removeAsync($scope.user).then(function() {
                     gaToast.show('User ' + $scope.user.username + ' was deleted');
                     $state.go('users');
                 });
@@ -66,7 +69,7 @@
                 name   : 'Instagram'
             },
             linkedin  : {
-                domain : 'linkedin.com',
+                domain : 'linkedin.com/in',
                 name   : 'Linkedin'
             },
             github    : {

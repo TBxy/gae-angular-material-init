@@ -23,10 +23,19 @@
          * Variables used in loadMoreUsers
          */
         this.users = {} ;
+        this.usersSorted = [];
         this.more = true;
         this.isLoading = false;
         var totalUsers = 0;
         var nextCursor = '';
+        this.usersChanged = function(){
+            $log.debug("[gaUsers:usersChanged] start ")
+            self.usersSorted = _.orderBy(self.users,'modified','desc');
+            $log.debug("[gaUsers:usersChanged] users by id ")
+            $log.debug(self.users)
+            $log.debug("[gaUsers:usersChanged] users sorted ")
+            $log.debug(self.usersSorted)
+        }
         /*****************************************************************
          * Load async 'users' from the server.
          * If a user is already available offline it is updated with the 
@@ -56,6 +65,7 @@
                     nextCursor = users.meta.nextCursor;
                     self.more = users.meta.more;
                     totalUsers = users.meta.totalCount;
+                    self.usersChanged();
                 })
                 .finally(function() {
                     self.isLoading = false;
@@ -92,8 +102,7 @@
                                 username:null,
                                 index:null})
             if (options.index !== null){
-                var userSorted = _.orderBy(self.users,'modified','desc');
-                return userSorted[options.index];
+                return self.usersSorted[options.index];
             }
             if (options.id !== null){
                 return self.users[options.id];
@@ -101,8 +110,8 @@
             if (options.key !== null){
                 return _.find(self.users['key',options.key]);
             }
-            if (options.key !== null){
-                return _.find(self.users['username',options.username]);
+            if (options.username !== null){
+                return _.find(self.users,['username',options.username]);
             }
         }
 
@@ -131,19 +140,120 @@
             self = this;
             var deferred = $q.defer();
             var user = self.get(options);
-            if (user && ! options.update){
-                deferred.resolve(user);
+            if (user){
+                if (options.update){
+                    $log.debug("[gaUsers:getAsync] update user ")
+                    options.username = user.username;
+                } else {
+                    deferred.resolve(user);
+                }
+            } 
+
+            // get online
+            if (options.username !== null){
+                $log.debug("[gaUsers:getAsync] get user online for "+options.username)
+                Restangular.one('users', options.username).get().then(function(newUser) {
+                    $log.debug("[gaUsers:getAsync] new loaded user ")
+                    $log.debug(newUser)
+                    self.users[options.id]=newUser;
+                    //_.merge(self.users[options.username],user);
+                    deferred.resolve(newUser);
+                });
             } else {
-            // TODO get it online
+                $log.warn('You can ony load new users by username')
+                deferred.reject('load new user only by username possible')
             }
             return deferred.promise;
         }
 
         this.getTotalUsers = function(){
             $log.debug("[gaUsers:getTotalUsers] start ")
-            $log.debug("[gaUsers:getTotalUsers] total users: "+totalUsers)
+            //$log.debug("[gaUsers:getTotalUsers] total users: "+totalUsers)
             return totalUsers;
         }
+
+
+        /*****************************************************************
+         * Saves a user to the server.
+         *
+         * Parameters:
+         * - userObject: A user object ({username:"",name:"",..}).
+         * - update : update the user after save from the server.
+         *            This gives the correct modified date.
+         *            NOT IMPLEMENTED YET
+         *
+         * Returns:
+         * - user : user (as a promise)
+         */
+        this.saveAsync = function(userObject,update){
+            // TODO implement update, needs to be returned by the server with save
+            update = typeof update !== 'undefined' ? update : false;
+            $log.debug("[gaUsers:saveAsync] start ")
+            userObject = typeof userObject !== 'undefined' ? userObject : {};
+            var deferred = $q.defer();
+            if (!userObject.hasOwnProperty('save')){
+                $log.warn("[gaUsers:saveAsync] User has no save");
+                if (!userObject.hasOwnProperty('id')){
+                    $log.warn("[gaUsers:saveAsync] User has no id");
+                    deferred.reject("User has no id");
+                } else {
+                    // TODO better getAsync?
+                    userObject = this.get({id:userObject.id})
+                }
+            }
+            userObject.save().then(function(){
+                //if (update){
+                    //self.getAsync({username:userObject.username})
+                        //.then(function(){
+                            //self.usersChanged()
+                            //deferred.resolve(userObject);
+                        //});
+                //} else {
+                    self.users[userObject.id] = userObject
+                    self.usersChanged()
+                    deferred.resolve(userObject);
+                //}
+            });
+            return deferred.promise;
+        }
+        /*****************************************************************
+         * Deletes a user from the server.
+         *
+         * Parameters:
+         * - userObject: A user object ({username:"",name:"",..}).
+         *
+         * Returns:
+         * - promise
+         */
+        this.removeAsync = function(userObject){
+            $log.debug("[gaUsers:removeAsync] start ")
+            $log.debug("[gaUsers:removeAsync] userObject ")
+            $log.debug(userObject)
+            userObject = typeof userObject !== 'undefined' ? userObject : {};
+            var deferred = $q.defer();
+            if (!userObject.hasOwnProperty('remove')){
+                $log.warn("[gaUsers:removeAsync] User has no remove");
+                if (!userObject.hasOwnProperty('id')){
+                    $log.warn("[gaUsers:removeAsync] User has no id");
+                    deferred.reject("User has no id");
+                } else {
+                    // TODO better getAsync?
+                    userObject = this.get({id:userObject.id})
+                }
+            }
+            userObject.remove().then(function(){
+                    //self.users[userObject.id] = undefined;
+                    delete self.users[userObject.id];
+                    delete self.users[null];
+                    self.usersChanged()
+                    deferred.resolve(userObject);
+            }, function(msg){
+                    deferred.reject(msg);
+            });
+            return deferred.promise;
+        }
+
+
     });
 
 }());

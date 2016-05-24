@@ -6,7 +6,7 @@
     <md-toolbar class="md-accent">
     <div class="md-toolbar-tools">
         <h1>Users
-            <span class="mar-lef-5" ng-show="totalCount">({{totalCount}})</span>
+            <span class="mar-lef-5" ng-show="totalUsers">({{totalUsers}})</span>
         </h1>
         <span flex></span>
         <md-icon md-svg-icon="account-multiple"></md-icon>
@@ -16,14 +16,14 @@
     <div md-virtual-repeat="user in repeatedUsers" md-on-demand
         flex>
         <md-list-item class="md-3-line user-list-item" ui-sref="profile.view({username: user.username})">
-        <img ng-src="{{user.avatar_url}}&s=45" class="md-avatar" alt="{{user.username}}" />
+        <img ng-src="{{user.avatar_url}}&s=45" class="md-avatar" alt="{{user.username}}" ng-show="user.avatar_url"/>
         <div class="md-list-item-text" flex>
             <h3>{{ user.username }}</h3>
             <h4>{{ user.name }}</h4>
             <p>{{ user.bio | cut:true:40 }}</p>
         </div>
         <!-- no function, just demo -->
-        <md-button class="md-secondary" ui-sref="profile.view({username: user.username})">more</md-button>
+        <md-button class="md-secondary" ui-sref="profile.view({username: user.username})" ng-show="user.avatar_url">more</md-button>
 
         <!-- TODO: style is a fix, better solution? -->
         <md-divider md-inset ng-if="!$last" style="width:90%;width:calc(100% - 90px);"></md-divider>

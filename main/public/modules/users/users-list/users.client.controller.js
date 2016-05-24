@@ -1,14 +1,12 @@
 (function() {
     'use strict';
-    var module = angular.module('admin');
+    var module = angular.module('users');
 
-    module.controller('UsersController', function($scope, Restangular,$log, $window,$timeout) {
+    module.controller('UsersController', function($scope, Restangular,
+            $log, $window,$timeout,gaUsers) {
         $log.debug("[UserController] init")
 
         var self = this;
-        var nextCursor = '';
-        var more = true;
-
         // flexible height fix for the virtual container
         // https://github.com/angular/material/issues/4314
         // might not be necessary in future angular material design versions
@@ -25,26 +23,9 @@
             }
         }
 
+        //gaUsers.loadMoreUsers();
 
-        $scope.users = [];
-        $scope.totalCount = 0;
-
-        self.getUsers = function() {
-            if (!more || $scope.isLoading) {
-                return;
-            }
-            $scope.isLoading = true;
-            Restangular.all('users').getList({cursor: nextCursor, filter: $scope.filter}).then(function(users) {
-                $scope.users = $scope.users.concat(users);
-                nextCursor = users.meta.nextCursor;
-                more = users.meta.more;
-                $scope.totalCount = users.meta.totalCount;
-            }).finally(function() {
-                $scope.isLoading = false;
-            });
-        };
-
-        self.getUsers();
+        $scope.totalUsers = 0;
 
         // In this example, we set up our model using a plain object.
         // Using a class works too. All that matters is that we implement
@@ -52,12 +33,12 @@
         $scope.repeatedUsers = {
           // Required.
           getItemAtIndex: function(index) {
-            var user = $scope.users[index]
+            var user = gaUsers.get({index:index});
             if (user !== undefined) {
               return user
             }
-            if (more && !$scope.isLoading) {
-                self.getUsers();
+            if (gaUsers.more && !gaUsers.isLoading) {
+                gaUsers.loadMoreUsers();
             }
             return null;
           },
@@ -65,7 +46,8 @@
           // For infinite scroll behavior, we always return a slightly higher
           // number than the previously loaded items.
           getLength: function() {
-            return $scope.totalCount;
+            $scope.totalUsers = gaUsers.getTotalUsers();
+            return $scope.totalUsers;
           }
         };
 

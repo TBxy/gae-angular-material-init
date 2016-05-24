@@ -51,7 +51,9 @@
             'lib/angular-material/angular-material.js',
             'lib/lodash/lodash.js',
             'lib/angulartics/src/angulartics.js',
-            'lib/angulartics/src/angulartics-ga.js'
+            'lib/angulartics/src/angulartics-ga.js',
+            'lib/moment/moment.js',
+            'lib/angular-moment/angular-moment.js'
         ],
         scripts : [
             'application.js',

@@ -15,7 +15,8 @@ var AppConfig = (function() {
         'noCAPTCHA',
         'ngMaterial',
         'angulartics',
-        'angulartics.google.analytics'
+        'angulartics.google.analytics',
+        'angularMoment'
     ];
 
     // Add a new vertical module

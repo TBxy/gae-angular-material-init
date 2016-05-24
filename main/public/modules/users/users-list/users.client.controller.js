@@ -46,12 +46,6 @@
 
         self.getUsers();
 
-        // This is fired when user scrolled to bottom
-        $scope.$on('mainContentScrolled', function() {
-            //self.getUsers();
-        });
-
-
         // In this example, we set up our model using a plain object.
         // Using a class works too. All that matters is that we implement
         // getItemAtIndex and getLength.

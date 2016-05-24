@@ -14,7 +14,6 @@ var AppConfig = (function() {
         'ui.router',
         'noCAPTCHA',
         'ngMaterial',
-        'lrInfiniteScroll',
         'angulartics',
         'angulartics.google.analytics'
     ];

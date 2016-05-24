@@ -12,7 +12,6 @@
     "angular-material": "~1.1",
     "angular-aria": "~1.5",
     "angular-no-captcha": "~0.6.0",
-    "lrInfiniteScroll": "~1.0.0",
     "angulartics": "~0.17.2",
     "restangular": "~1.5"
   },

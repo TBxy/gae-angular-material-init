@@ -1,34 +1,36 @@
-<div layout="row" class="w-100" layout-align="center start">
-    <md-content flex flex-gt-lg="70" class="md-whiteframe-z1 no-overflow-x">
+<div layout="row" layout-fill layout-align="center start">
+    <md-content flex-sm="80" flex-md="65" flex-gt-md="50" flex 
+            md-whiteframe="1"
+            class="no-overflow-x"
+            layout-fill>
+    <md-toolbar class="md-accent">
+    <div class="md-toolbar-tools">
+        <h1>Users
+            <span class="mar-lef-5" ng-show="totalCount">({{totalCount}})</span>
+        </h1>
+        <span flex></span>
+        <md-icon md-svg-icon="account-multiple"></md-icon>
+    </div>
+    </md-toolbar>
+    <md-virtual-repeat-container id="vertical-container" ng-style="listStyle">
+    <div md-virtual-repeat="user in repeatedUsers" md-on-demand
+        flex>
+        <md-list-item class="md-3-line user-list-item" ui-sref="profile.view({username: user.username})">
+        <img ng-src="{{user.avatar_url}}&s=45" class="md-avatar" alt="{{user.username}}" />
+        <div class="md-list-item-text" flex>
+            <h3>{{ user.username }}</h3>
+            <h4>{{ user.name }}</h4>
+            <p>{{ user.bio | cut:true:40 }}</p>
+        </div>
+        <!-- no function, just demo -->
+        <md-button class="md-secondary" ui-sref="profile.view({username: user.username})">more</md-button>
 
-        <md-toolbar class="md-accent">
-            <h1 class="md-toolbar-tools">Users
-                <span class="mar-lef-5" ng-show="totalCount">({{totalCount}})</span></h1>
-        </md-toolbar>
-        <md-list>
-            <md-item ng-repeat="user in users" class="user-list-item">
-                <md-divider ng-if="$first"></md-divider>
-                <md-item-content>
-                    <a ui-sref="profile.view({username: user.username})"
-                       class="md-tile-left hpad-15 vpad-15 no-dec">
-                        <img class="profile-pic" ng-src="{{user.avatar_url}}&s=45" alt="{{user.username}}"/>
-                    </a>
+        <!-- TODO: style is a fix, better solution? -->
+        <md-divider md-inset ng-if="!$last" style="width:90%;width:calc(100% - 90px);"></md-divider>
+        </md-list-item>
 
-                    <a ui-sref="profile.view({username: user.username})"
-                       class="md-tile-content no-dec">
-                        <h3>{{user.username}}</h3>
-                        <h4>{{user.name}}</h4>
-
-                        <p>
-                            {{user.bio}}
-                        </p>
-                    </a>
-
-                </md-item-content>
-                <md-divider ng-if="!$last"></md-divider>
-            </md-item>
-            <md-progress-linear ng-show="isLoading"
-                                md-mode="indeterminate" class="pad-bot-10"></md-progress-linear>
-        </md-list>
+    </div>
+    </md-virtual-repeat-container>
+    <md-progress-linear ng-show="isLoading" md-mode="indeterminate" class="pad-bot-10"></md-progress-linear>
     </md-content>
 </div>

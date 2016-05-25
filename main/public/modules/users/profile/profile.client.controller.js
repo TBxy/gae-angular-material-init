@@ -5,7 +5,8 @@
     module.controller('ProfileController', 
         function($scope, Restangular, gaAppConfig, gaAuthentication, 
                     $stateParams, _, $mdDialog, gaToast, $state,
-                    gaUsers) {
+                    gaUsers, $log) {
+        $log.debug("[ProfileController] init")
         $scope.cfg = gaAppConfig;
         $scope.auth = gaAuthentication;
         $scope.isMyProfile = function() {
@@ -22,10 +23,11 @@
         }
 
         $scope.getAvailableSocialAccounts = function() {
+            $log.debug("[ProfileController:getAvailableSocialAccount] start")
             if (!$scope.user) {
                 return;
             }
-            return _.pick($scope.socialAccounts, function(soc, socKey) {
+            return _.pickBy($scope.socialAccounts, function(soc, socKey) {
                 /*jslint unparam:true*/
                 return !!$scope.user[socKey];
             });
@@ -54,27 +56,33 @@
         $scope.socialAccounts = {
             facebook  : {
                 domain : 'facebook.com',
-                name   : 'Facebook'
+                name   : 'Facebook',
+                icon   : 'facebook'
             },
             twitter   : {
                 domain : 'twitter.com',
-                name   : 'Twitter'
+                name   : 'Twitter',
+                icon   : 'twitter'
             },
             gplus     : {
                 domain : 'plus.google.com',
-                name   : 'Google Plus'
+                name   : 'Google Plus',
+                icon   : 'google-plus'
             },
             instagram : {
                 domain : 'instagram.com',
-                name   : 'Instagram'
+                name   : 'Instagram',
+                icon   : 'instagram'
             },
             linkedin  : {
                 domain : 'linkedin.com/in',
-                name   : 'Linkedin'
+                name   : 'Linkedin',
+                icon   : 'linkedin'
             },
             github    : {
                 domain : 'github.com',
-                name   : 'Github'
+                name   : 'Github',
+                icon   : 'github-circle'
             }
         };
     });

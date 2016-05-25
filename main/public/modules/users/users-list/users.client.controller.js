@@ -18,14 +18,15 @@
         function onResize() {
             $scope.listStyle.height = ($window.innerHeight - 240) + 'px';
             $timeout($scope.$broadcast('$md-resize'),100);
-            if(!$scope.$root.$$phase){
+            //if(!$scope.$root.$$phase){
                 //$scope.$digest();
-            }
+            //}
         }
 
         //gaUsers.loadMoreUsers();
 
         $scope.totalUsers = 0;
+        $scope.gaUser = gaUsers
 
         // In this example, we set up our model using a plain object.
         // Using a class works too. All that matters is that we implement

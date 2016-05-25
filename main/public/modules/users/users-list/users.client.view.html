@@ -23,7 +23,11 @@
             <p>{{ user.bio | cut:true:40 }}</p>
         </div>
         <!-- no function, just demo -->
-        <md-button class="md-secondary" ui-sref="profile.view({username: user.username})" ng-show="user.avatar_url">more</md-button>
+        <div class="md-secondary" layout="row">
+            <md-icon ng-show="user.verified" md-svg-icon="verified"></md-icon>
+            <md-icon ng-hide="user.active" md-svg-icon="block-helper"></md-icon>
+            <md-icon ng-show="user.admin" md-svg-icon="account-settings-variant"></md-icon>
+        </div>
 
         <!-- TODO: style is a fix, better solution? -->
         <md-divider md-inset ng-if="!$last" style="width:90%;width:calc(100% - 90px);"></md-divider>
@@ -31,6 +35,6 @@
 
     </div>
     </md-virtual-repeat-container>
-    <md-progress-linear ng-show="isLoading" md-mode="indeterminate" class="pad-bot-10"></md-progress-linear>
+    <md-progress-linear ng-show="gaUser.isLoading" md-mode="indeterminate" class="pad-bot-10"></md-progress-linear>
     </md-content>
 </div>

@@ -72,9 +72,10 @@ class User(model.Base):
     github = ndb.StringProperty(default='', validator=UserValidator.create('social'))
 
     PUBLIC_PROPERTIES = ['avatar_url', 'name', 'username', 'bio', 'location',
-                         'facebook', 'twitter', 'gplus', 'linkedin', 'github', 'instagram']
+                         'facebook', 'twitter', 'gplus', 'linkedin', 'github',
+                         'instagram', 'admin', 'active', 'verified' ]
 
-    PRIVATE_PROPERTIES = ['admin', 'active', 'auth_ids', 'email', 'permissions', 'verified']
+    PRIVATE_PROPERTIES = ['auth_ids', 'email', 'permissions']
 
     @property
     def avatar_url(self):

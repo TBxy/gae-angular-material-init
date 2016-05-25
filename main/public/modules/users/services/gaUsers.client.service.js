@@ -55,15 +55,16 @@
             }
             self.isLoading = true;
             var newUsers;
-            var userByKey;
+            var usersByKey;
             Restangular.all('users').getList({cursor: nextCursor, 
                                             size:10,
                                             orderBy:"-modified",
                                             total:true})
                 .then(function(users) {
+                    $log.debug("[gaUsers:loadMoreUsers] then ")
                     newUsers = users
-                    userByKey = _.keyBy(users, 'id')
-                    _.merge(self.users,userByKey);
+                    usersByKey = _.keyBy(users, 'id')
+                    _.merge(self.users,usersByKey);
                     //self.users = self.users.concat(users);
                     nextCursor = users.meta.nextCursor;
                     self.more = users.meta.more;
@@ -71,6 +72,7 @@
                     self.usersChanged();
                 })
                 .finally(function() {
+                    $log.debug("[gaUsers:loadMoreUsers] finally ")
                     self.isLoading = false;
                     // return loaded users
                     deferred.resolve(newUsers);
@@ -81,7 +83,7 @@
         /*****************************************************************
          * Load the first batch (speed things up)
          */
-        $timeout(self.loadMoreUsers(),250);
+        $timeout(self.loadMoreUsers(),10);
 
 
         /*****************************************************************
@@ -158,7 +160,7 @@
                 Restangular.one('users', options.username).get().then(function(newUser) {
                     $log.debug("[gaUsers:getAsync] new loaded user ")
                     $log.debug(newUser)
-                    self.users[options.id]=newUser;
+                    self.users[newUser.id]=newUser;
                     //_.merge(self.users[options.username],user);
                     deferred.resolve(newUser);
                 });
@@ -247,8 +249,8 @@
             userObject.remove().then(function(){
                     //self.users[userObject.id] = undefined;
                     delete self.users[userObject.id];
-                    delete self.users[null];
                     self.usersChanged()
+                    delete self.users[null];
                     deferred.resolve(userObject);
             }, function(msg){
                     deferred.reject(msg);

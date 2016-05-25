@@ -109,3 +109,32 @@ class User(model.Base):
         return None
 
 
+    @classmethod
+    def qry(cls, name=None, username=None, email=None, \
+          active=None, admin=None,
+          permissions=None, verified=None,
+          location=None, **kwargs):
+        """Query for way points"""
+        #qry = cls.query(**kwargs)
+        qry = model.Base.qry(model.User,**kwargs)
+        if name:
+            qry = qry.filter(cls.name==name)
+        if username:
+            qry = qry.filter(cls.username==username)
+        if email:
+            qry = qry.filter(cls.email==email)
+        if active:
+            qry = qry.filter(cls.active==active)
+        if admin:
+            qry = qry.filter(cls.admin==admin)
+        if permissions:
+            qry = qry.filter(cls.permissions==permissions)
+        if verified:
+            qry = qry.filter(cls.verified==verified)
+        if location:
+            qry = qry.filter(cls.location==location)
+        #else filter for private True and False
+        return qry
+
+
+

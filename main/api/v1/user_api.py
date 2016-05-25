@@ -10,7 +10,8 @@ import util
 
 from main import API
 from model import User, UserValidator
-from api.helpers import ArgumentValidator, make_list_response, make_empty_ok_response
+from api.helpers import ArgumentValidator, make_list_response,\
+        make_empty_ok_response, default_parser, to_compare_date
 from flask import request, g
 from pydash import _
 from api.decorators import model_by_key, user_by_username, authorization_required, admin_required
@@ -22,18 +23,19 @@ class UsersAPI(Resource):
     in parallel with obtaining total count via *_async functions
     """
     def get(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('cursor', type=ArgumentValidator.create('cursor'))
+        parser = default_parser()
         args = parser.parse_args()
+        compare ,date = to_compare_date(args.newer, args.older, args.orderBy)
 
-        users_future = User.query() \
-            .order(-User.created) \
-            .fetch_page_async(10, start_cursor=args.cursor)
+        users_query = User.qry(order_by_date=args.orderBy,  \
+            compare_date = compare, date = date, time_offset=args.offset)
+        users_future = users_query.fetch_page_async(args.size, start_cursor=args.cursor)
 
-        total_count_future = User.query().count_async(keys_only=True)
+        total_count_future = users_query.count_async(keys_only=True) if args.total else False
         users, next_cursor, more = users_future.get_result()
         users = [u.to_dict(include=User.get_public_properties()) for u in users]
-        return make_list_response(users, next_cursor, more, total_count_future.get_result())
+        total_count = total_count_future.get_result() if total_count_future else False
+        return make_list_response(users, next_cursor, more, total_count)
 
 
 @API.resource('/api/v1/users/<string:username>')

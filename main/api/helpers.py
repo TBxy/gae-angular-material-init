@@ -93,12 +93,57 @@ def make_list_response(reponse_list, cursor=None, more=False, total_count=None):
     return {
         'list': reponse_list,
         'meta': {
-            'nextCursor': cursor.urlsafe(),
+            'nextCursor': cursor.urlsafe() if cursor else None,
             'more': more,
             'totalCount': total_count
         }
     }
 
+def default_parser():
+    """ Creates a default parser with seven arguments:
+        cursor, total, size, orderBy (see model.Base),
+        newer or older (date string), and offset
+        (offset to newer or older in seconds).
+    Returns:
+        parser object.
+
+    Example:
+        parser = default_parser()
+        args = parser.parse_args()
+
+    """
+    parser = restful.reqparse.RequestParser()
+    parser.add_argument('cursor', type=ArgumentValidator.create('cursor'))
+    parser.add_argument('size', type=int, default=10)
+    parser.add_argument('total', type=ArgumentValidator.create('boolTrue'),default=False)
+    parser.add_argument('orderBy', type=str, default=None)
+    parser.add_argument('newer', type=str, default=None)
+    parser.add_argument('older', type=str, default=None)
+    parser.add_argument('offset', type=str, default=None)
+    return parser
+
+def to_compare_date(newer,older, orderBy='modified'):
+    """ Translates newer and older values to a compare_date
+    and a date, depending on the oderBy value.
+    Only newer older older can be set, newer is taken if both
+    are set.
+
+    Parameters:
+        newer: date string or timedate object
+        older: date string or timedate object
+
+    Returns:
+        (compare_date, date)
+    """
+    compare = None
+    date = None
+    if newer and orderBy:
+        compare = ">="+orderBy.replace("-","")
+        date = newer
+    elif older and orderBy:
+        compare = "<="+orderBy.replace("-","")
+        date = older
+    return (compare, date)
 
 class ArgumentValidator(model.BaseValidator):
     """This validator class contains attributes and methods for validating user's input,
@@ -159,6 +204,43 @@ class ArgumentValidator(model.BaseValidator):
         if not cursor:
             return None
         return Cursor(urlsafe=cursor)
+
+    @classmethod
+    def bool(cls, arg, default=True):
+        """Verifies if given argument is a boolean value.
+
+        Args:
+            arg (string): String with boolean value (1, true, TRUE, and so on)
+
+        Returns:
+            bool (True or False)
+
+        Do not use this directely together with ArgumentValidator.create(str),
+        use the functions below for this.
+        """
+        arg = default if arg == "" else arg
+        arg = restful.inputs.boolean(arg)
+        return arg
+
+    @classmethod
+    def boolTrue(cls, arg):
+        """ Returns True by default if the string is empty"""
+        return cls.bool(arg, True)
+
+    @classmethod
+    def boolFalse(cls, arg):
+        """ Returns False by default if the string is empty"""
+        return cls.bool(arg, False)
+
+    @classmethod
+    def tristate(cls, arg):
+        """ Tristate argument, it is either True, False or both"""
+        if str(active).lower() == 'both':
+            return 'both'
+        else:
+            return cls.bool(arg, False)
+
+
 
 
 

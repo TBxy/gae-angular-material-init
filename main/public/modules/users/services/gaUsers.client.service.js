@@ -56,7 +56,10 @@
             self.isLoading = true;
             var newUsers;
             var userByKey;
-            Restangular.all('users').getList({cursor: nextCursor})
+            Restangular.all('users').getList({cursor: nextCursor, 
+                                            size:10,
+                                            orderBy:"-modified",
+                                            total:true})
                 .then(function(users) {
                     newUsers = users
                     userByKey = _.keyBy(users, 'id')

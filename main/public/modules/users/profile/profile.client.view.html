@@ -2,7 +2,7 @@
     <div flex-sm="80" flex-md="60" flex-gt-md="50" flex md-whiteframe="1">
         <md-content class="no-overflow" layout="column" layout-align="start center" layout-padding>
             <a ui-sref="profile.view({username: user.username})">
-                <img class="profile-pic" ng-src="{{user.avatar_url}}&s=130"/>
+                <img class="profile-pic-large" ng-src="{{user.avatar_url}}"/>
             </a>
             <a ui-sref="profile.view({username: user.username})" class="no-dec">
                 <h2 class="mar-bot-0">{{ user.username }}</h2>

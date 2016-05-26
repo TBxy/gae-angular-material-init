@@ -6,7 +6,7 @@ from model import User
 from factory.fuzzy import FuzzyText, FuzzyChoice
 import factory
 import util
-
+import random
 
 class UserFactory(BaseFactory):
     """Factory for creating mock users"""
@@ -19,6 +19,7 @@ class UserFactory(BaseFactory):
     verified = FuzzyChoice([True, False])
     active = FuzzyChoice([True, False])
     bio = FuzzyChoice(['They see me rollin\'', 'They hatin\''])
+    avatar_url = factory.LazyAttribute(lambda user: "https://randomuser.me/api/portraits/{sex}/{nr}.jpg".format(sex=random.choice(['women','men']),nr=random.randint(1,99)))
     facebook = FuzzyText()
     twitter = FuzzyText()
     gplus = FuzzyText()

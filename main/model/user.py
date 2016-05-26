@@ -2,7 +2,6 @@
 """Provides implementation of User model and User"""
 from __future__ import absolute_import
 
-import hashlib
 from google.appengine.ext import ndb
 import model
 import util
@@ -63,6 +62,7 @@ class User(model.Base):
     token = ndb.StringProperty(default='')
     password_hash = ndb.StringProperty(default='')
     bio = ndb.StringProperty(default='', validator=UserValidator.create('bio'))
+    avatar_url = ndb.StringProperty(default='',required=True, indexed=False)
     location = ndb.StringProperty(default='', validator=UserValidator.create('location'))
     facebook = ndb.StringProperty(default='', validator=UserValidator.create('social'))
     twitter = ndb.StringProperty(default='', validator=UserValidator.create('social'))
@@ -77,13 +77,13 @@ class User(model.Base):
 
     PRIVATE_PROPERTIES = ['auth_ids', 'email', 'permissions']
 
-    @property
-    def avatar_url(self):
-        """Returns gravatar url, created from user's email or username"""
-        return '//gravatar.com/avatar/%(hash)s?d=identicon&r=x' % {
-            'hash': hashlib.md5(
-                (self.email or self.username).encode('utf-8')).hexdigest()
-        }
+    #@property
+    #def avatar_url(self):
+        #"""Returns gravatar url, created from user's email or username"""
+        #return '//gravatar.com/avatar/%(hash)s?d=identicon&r=x' % {
+            #'hash': hashlib.md5(
+                #(self.email or self.username).encode('utf-8')).hexdigest()
+        #}
 
     def has_password(self, password):
         """Tests if user has given password"""

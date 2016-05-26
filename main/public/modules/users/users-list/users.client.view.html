@@ -16,7 +16,7 @@
     <div md-virtual-repeat="user in repeatedUsers" md-on-demand
         flex>
         <md-list-item class="md-3-line user-list-item" ui-sref="profile.view({username: user.username})">
-        <img ng-src="{{user.avatar_url}}&s=45" class="md-avatar" alt="{{user.username}}" ng-show="user.avatar_url"/>
+        <img ng-src="{{user.avatar_url}}" class="md-avatar" alt="{{user.username}}" ng-show="user.avatar_url"/>
         <div class="md-list-item-text" flex>
             <h3>{{ user.username }}</h3>
             <h4>{{ user.name }}</h4>

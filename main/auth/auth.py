@@ -14,6 +14,7 @@ from flask_restful import reqparse, inputs
 import model
 import task
 import util
+import hashlib
 
 
 from main import app, config
@@ -162,12 +163,18 @@ def signin_oauth(oauth_app, scheme=None):
         return flask.redirect(flask.url_for('index'))
 
 
-def create_user_db(auth_id, name, username, email='', verified=False, password='', **props):
+def create_user_db(auth_id, name, username, email='', verified=False, password='', avatar_url=None, **props):
     """Saves new user into datastore"""
     if password:
         password = util.password_hash(password)
 
     email = email.lower()
+    if not avatar_url:
+        avatar_url = '//gravatar.com/avatar/%(hash)s?d=identicon&r=x' % {
+            'hash': hashlib.md5(
+                (email or username).encode('utf-8')).hexdigest()
+            }
+
     user_db = model.User(
         name=name,
         email=email,
@@ -176,6 +183,7 @@ def create_user_db(auth_id, name, username, email='', verified=False, password='
         verified=verified,
         token=util.uuid(),
         password_hash=password,
+        avatar_url = avatar_url,
         **props
     )
     user_db.put()

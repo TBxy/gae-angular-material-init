@@ -19,8 +19,8 @@
     </div>
 
     <div class="vmar-10" ng-if="auth.isAdmin()">
-        <div class="mar-bot-5">Created: <span am-time-ago="user.created"></span></div>
-        <div>Modified: <span am-time-ago="user.modified"></span></div>
+        <div class="mar-bot-5">Created: <span>{{user.created | amUtc | amLocal | amCalendar}}</span></div>
+        <div>Modified: <span>{{user.modified | amUtc | amLocal | amCalendar}}</span></div>
         <div layout="row" layout-align="center center" class="mar-top-15">
             <div ng-show="user.verified" class="hpad-15">
                 <md-icon md-svg-icon="verified"></md-icon>

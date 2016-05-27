@@ -53,6 +53,7 @@
             'lib/angulartics/src/angulartics.js',
             'lib/angulartics/src/angulartics-ga.js',
             'lib/moment/moment.js',
+            'lib/moment-timezone/builds/moment-timezone-with-data.js',
             'lib/angular-moment/angular-moment.js',
             'lib/ng-file-upload/ng-file-upload.js'
         ],

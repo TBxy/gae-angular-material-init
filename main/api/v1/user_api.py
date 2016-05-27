@@ -56,7 +56,7 @@ class UserByKeyAPI(Resource):
     @model_by_key
     def put(self, key):
         """Updates user's properties"""
-        update_properties = ['name', 'bio', 'email', 'location', 'facebook', 'github',
+        update_properties = ['name', 'bio', 'email', 'location', 'avatar_url', 'facebook', 'github',
                              'gplus', 'linkedin', 'twitter', 'instagram']
         if auth.is_admin():
             update_properties += ['verified', 'active', 'admin']

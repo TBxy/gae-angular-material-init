@@ -53,7 +53,8 @@
             'lib/angulartics/src/angulartics.js',
             'lib/angulartics/src/angulartics-ga.js',
             'lib/moment/moment.js',
-            'lib/angular-moment/angular-moment.js'
+            'lib/angular-moment/angular-moment.js',
+            'lib/ng-file-upload/ng-file-upload.js'
         ],
         scripts : [
             'application.js',

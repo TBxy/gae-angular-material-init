@@ -37,8 +37,9 @@
                     upload.then(function (response) {
                         var link = response.data.private_links[0];
                         $scope.editedUser.avatar_url = link
-                        gaUsers.saveAsync($scope.editedUser,true).then(function() {
-                            _.extend($scope.user, $scope.editedUser);
+                        gaUsers.saveAsync($scope.editedUser,true).then(function(updatedUser) {
+                            _.extend($scope.user, updatedUser);
+                            //_.extend($scope.user, updatedUser);
                             gaTracking.eventTrack('Profile edit', $scope.editedUser.username);
                             gaBrowserHistory.back();
                             gaToast.show('A profile was successfully updated');
@@ -48,12 +49,18 @@
                             $scope.errorMsg = response.status + ': ' + response.data;
                         }
                     }, function (evt) {
-                        $log.info(evt)
+                        $log.info(evt) //TODO why does this not work?
                         $scope.avatarLoaded = evt.loaded;
                         $scope.avatar.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
                     });
-                //} else {
-                        //$state.go('collection.view',{collection: $scope.editCol.key})
+                } else {
+                    gaUsers.saveAsync($scope.editedUser,true).then(function(updatedUser) {
+                        //_.extend($scope.user, $scope.editedUser);
+                        _.extend($scope.user, updatedUser);
+                        gaTracking.eventTrack('Profile edit', $scope.editedUser.username);
+                        gaBrowserHistory.back();
+                        gaToast.show('A profile was successfully updated');
+                    });
                 }
 
 

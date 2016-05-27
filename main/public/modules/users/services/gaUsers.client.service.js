@@ -191,7 +191,6 @@
          * - user : user (as a promise)
          */
         this.saveAsync = function(userObject,update){
-            // TODO implement update, needs to be returned by the server with save
             update = typeof update !== 'undefined' ? update : false;
             $log.debug("[gaUsers:saveAsync] start ")
             userObject = typeof userObject !== 'undefined' ? userObject : {};
@@ -206,7 +205,7 @@
                     userObject = this.get({id:userObject.id})
                 }
             }
-            userObject.save().then(function(){
+            userObject.save().then(function(updatedUser){
                 //if (update){
                     //self.getAsync({username:userObject.username})
                         //.then(function(){
@@ -214,6 +213,9 @@
                             //deferred.resolve(userObject);
                         //});
                 //} else {
+                    if (update){
+                        _.extend(userObject, updatedUser);
+                    }
                     self.users[userObject.id] = userObject
                     self.usersChanged()
                     deferred.resolve(userObject);

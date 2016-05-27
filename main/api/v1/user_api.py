@@ -64,7 +64,12 @@ class UserByKeyAPI(Resource):
         new_data = _.pick(request.json, update_properties)
         g.model_db.populate(**new_data)
         g.model_db.put()
-        return make_empty_ok_response()
+        #return make_empty_ok_response()
+        if auth.is_admin():
+            properties = User.get_private_properties()
+        else:
+            properties = User.get_public_properties()
+        return g.model_db.to_dict(include=properties)
 
     @admin_required
     @model_by_key

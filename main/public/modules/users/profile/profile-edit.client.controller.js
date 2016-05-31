@@ -13,9 +13,17 @@
 
         $scope.validators = gaValidators.user;
 
+        //$scope.editedUser = {};
         $scope.$watch('user', function(newVal) {
             if (newVal) {
+                $log.debug("[ProfileEditController:$watch(user)] user changed")
+                $log.debug($scope.user);
+                //var editedUser2 = _.cloneDeep($scope.user);
+                //_.merge($scope.editedUser,editedUser2);
+                //$scope.editedUser = _.cloneDeep($scope.user);
                 $scope.editedUser = $scope.user.clone();
+                $scope.editedUser.locationRaw = $scope.user.locationRaw;
+                $log.debug($scope.editedUser);
             }
         });
 
@@ -27,6 +35,7 @@
 
         $scope.save = function() {
 
+            $scope.editedUser.location = $scope.editedUser.locationRaw.description
             if ( $scope.avatar ){
                     var upload = Upload.upload({
                         url: 'api/v1/upload/avatar/'+$scope.editedUser.key+'.jpg',

@@ -15,10 +15,12 @@
 
         if ($scope.isMyProfile()) {
             $scope.user = gaAuthentication.user;
+            $scope.user.locationRaw = { description : $scope.user.location};
         } else {
             gaUsers.getAsync({username:$stateParams.username}).then(function(user) {
             //Restangular.one('users', $stateParams.username).get().then(function(user) {
                 $scope.user = user;
+                $scope.user.locationRaw = { description : $scope.user.location};
             });
         }
 

@@ -33,14 +33,27 @@
                show-counter="true"
                tabindex="3">
     </md-input-container>
-    <md-input-container>
+    <!--<md-input-container>
         <label>Location</label>
         <input ng-model="editedUser.location"
                name="location"
                ga-input-validator
                validator-category="user"
                tabindex="4">
-    </md-input-container>
+    </md-input-container>-->
+<!--    <ga-location-autocomplete ng-model="Location" label="Location 2">
+    </ga-location-autocomplete> -->
+        <md-autocomplete
+               name="location"
+               md-selected-item = "editedUser.locationRaw"
+               ga-input-validator
+               ga-autocomplete-location
+               md-select-on-focus
+               validator-category="user"
+               md-floating-label="Location"
+               tabindex="4">
+        </md-autocomplete>
+
     <div ng-repeat="(socKey, soc) in socialAccounts" layout="row" layout-align="start center">
         <span class="mar-rig-5">{{soc.domain}}/</span>
         <md-input-container flex>

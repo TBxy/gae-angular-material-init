@@ -8,7 +8,7 @@ Biggest updates compared to [gae-angular-material-starter]:
 * Updated all other JavaScript libraries
 * Replaced `lrInfiniteScroll` with Angular's Material virtual repeat
 * Material design icons from [materialdesignicons.com]  (replaces fontawesome icons)
-* Add the possibility to upload an user avatar to the cloud storage
+* Add the possibility to upload an user avatar to [GCS]
 * New location autocomplete directive
 * Easy query builder method (`qry()`)
 
@@ -80,3 +80,4 @@ MIT. Can't be more open, source ;)
 [meanjs]: https://github.com/meanjs/mean
 [Angular Material]: https://material.angularjs.org
 [materialdesignicons.com]: https://materialdesignicons.com/
+[GCS]: https://cloud.google.com/storage/

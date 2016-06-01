@@ -3,6 +3,15 @@
 This project is a fork of [gae-angular-material-starter], but with updated libraries and features.
 As a base for [gae-angular-material-starter] are [gae-init] and [MEANJS] used. Big thanks to all the previous projects!
 
+Biggest updates compared to [gae-angular-material-starter]:
+* Updated to [Angular Material] version 1
+* Updated all other JavaScript libraries
+* Replaced `lrInfiniteScroll` with Angular's Material virtual repeat
+* Material design icons from [materialdesignicons.com]  (replaces fontawesome icons)
+* Add the possibility to upload an user avatar to the cloud storage
+* New location autocomplete directive
+* Easy query builder method (`qry()`)
+
 This full stack uses following technologies:
 * Google App Engine
 * Python Flask
@@ -69,3 +78,5 @@ MIT. Can't be more open, source ;)
 [virtualenv]: http://www.virtualenv.org/
 [gae-init]: https://github.com/gae-init/gae-init
 [meanjs]: https://github.com/meanjs/mean
+[Angular Material]: https://material.angularjs.org
+[materialdesignicons.com]: https://materialdesignicons.com/

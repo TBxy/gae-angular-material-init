@@ -1,5 +1,5 @@
 application: gae-angular-material-init
-version: 1
+version: alpha-001
 runtime: python27
 api_version: 1
 threadsafe: true
@@ -37,7 +37,7 @@ handlers:
 
 - url: /p/core/icons/(.*\.svg)
   static_files: public/modules/core/icons/\1
-  upload: public/modules/core/icons/\1
+  upload: public/modules/core/icons/(.*\.svg)
   expiration: 1000d
 
 - url: /p/
@@ -61,9 +61,6 @@ skip_files:
 - ^(.*/)?index\.yaml
 - ^(.*/)?index\.yml
 - ^lib/.*
-- ^!(lib/font-awesome/fonts/fontawesome-webfont.woff)
-- ^!(lib/font-awesome/fonts/fontawesome-webfont2.woff)
-- ^!(lib/font-awesome/fonts/fontawesome-webfont.ttf)
 - ^public/lib/.*
 - ^public/application.js
 - ^public/modules/.*\.coffee

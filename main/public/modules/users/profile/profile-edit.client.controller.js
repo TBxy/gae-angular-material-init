@@ -22,7 +22,7 @@
                 //_.merge($scope.editedUser,editedUser2);
                 //$scope.editedUser = _.cloneDeep($scope.user);
                 $scope.editedUser = $scope.user.clone();
-                $scope.editedUser.locationRaw = $scope.user.locationRaw;
+                $scope.editedUser.locationRaw = {description: $scope.user.location};
                 $log.debug($scope.editedUser);
             }
         });

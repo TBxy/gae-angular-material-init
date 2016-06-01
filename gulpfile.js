@@ -67,7 +67,7 @@
         'lib/angular-material/angular-material.css'
     ];
     var lessPaths = [
-        publicDir + '/lib/font-awesome/less'
+     //   publicDir + '/lib/font-awesome/less'
     ];
     var appLessPaths = publicDir + '/modules/**/less';
     lessPaths = lessPaths.concat(glob.sync(appLessPaths));
@@ -174,11 +174,11 @@
         })).pipe(gulp.dest(distDir));
     });
 
-    gulp.task('copy-fonts', function() {
-        gulp.src('font-awesome/fonts/*', {
-            cwd : publicLibDir
-        }).pipe(gulp.dest(distDir + '/fonts'))
-    });
+    //gulp.task('copy-fonts', function() {
+        //gulp.src('font-awesome/fonts/*', {
+            //cwd : publicLibDir
+        //}).pipe(gulp.dest(distDir + '/fonts'))
+    //});
 
     gulp.task('clean-js', function() {
         del([publicLibDir, distDir]);
@@ -199,12 +199,14 @@
     });
 
     gulp.task('clean-python', function() {
-        del([venvDir, pyLibDir]);
+        del([venvDir, pyLibDir, pyLib + '.zip']);
     });
 
-    gulp.task('clean-all', ['clean-cache', 'clean-python'], function() {
-        del(['bower_compenents', 'node_modules', publicLibDir, distDir, venvDir, pyLibDir]);
+    gulp.task('clean-js', function() {
+        del([distDir, publicLibDir, 'node_modules']);
     });
+
+    gulp.task('clean-all', ['clean-cache', 'clean-python','clean-js']);
 
     gulp.task('run-server', function() {
         var proc = exec('python -u run.py');
@@ -224,7 +226,7 @@
         'inject-scripts',
         'less',
         'watch',
-        'copy-fonts',
+        //'copy-fonts',
         'run-server'
     ]);
 
@@ -233,8 +235,8 @@
         'zip-lib',
         'uglify',
         'inject-scripts',
-        'template-cache',
-        'copy-fonts'
+        'template-cache'
+        //'copy-fonts'
     ]);
 
     gulp.task('default', ['run']);

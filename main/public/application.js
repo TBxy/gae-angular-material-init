@@ -52,9 +52,11 @@ angular.module(AppConfig.applicationModuleName).config([
         // mdi.svg is downloaded from:
         // https://materialdesignicons.com/getting-started
         // Update is done manually!
-        $mdIconProvider.defaultIconSet('/p/core/icons/mdi.svg')
+        $mdIconProvider.defaultIconSet('/p/core/icons/mdi.svg');
     }
-]);//.constant('moment', require('moment-timezone'));
+]).config(['$logProvider', function($logProvider){
+    $logProvider.debugEnabled(true);
+}]);
 
 //Then define the init function for starting up the application
 angular.element(document).ready(function() {

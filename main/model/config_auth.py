@@ -42,7 +42,7 @@ class ConfigAuth(object):
 
     auth_vk_id = ndb.StringProperty(default='')
     auth_vk_secret = ndb.StringProperty(default='')
-    auth_vk_vk = ndb.StringProperty(default='vk')
+    auth_vk_icon = ndb.StringProperty(default='vk')
 
     auth_yahoo_id = ndb.StringProperty(default='')
     auth_yahoo_secret = ndb.StringProperty(default='')

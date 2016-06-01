@@ -1,7 +1,7 @@
-<form name="appConfigForm">
+<form name="appConfigForm" layout-fill flex>
     <md-tabs md-selected="tabIndex" class="app-config-content">
         <md-tab label="General">
-            <md-content class="md-padding">
+            <md-content layout-padding layout="column">
                 <md-input-container>
                     <label>Brand name</label>
                     <input ng-model="cfg.brand_name"
@@ -31,22 +31,45 @@
             </md-content>
         </md-tab>
         <md-tab label="Authentications">
-            <md-content class="md-padding"
+            <md-content layout-padding
                         md-swipe-left="next()"
                         md-swipe-right="previous()">
-                <md-input-container ng-repeat="(authKey, auth) in getAuthOptions()">
+                <!--<md-input-container ng-repeat="(authKey, auth) in getAuthOptions()">
                     <label>
                         <i class="fa fa-{{ getAuthName(authKey) }}"></i>
                         {{capitalizeAuthName(authKey)}}
-                        {{isSecretKey(authKey) ? 'secret key' : 'public ID'}} </label>
+                        {{propertyTypeText(authKey)}} </label>
                     <input ng-model="cfg[authKey]"
                            tabindex="$index"
                            name="{{authKey}}">
+                </md-input-container>-->
+                <div ng-repeat="(name, auth) in authOptions">
+                <h1 class="md-title">
+                    <md-icon md-svg-icon="{{ cfg[auth.icon.key] }}"></md-icon>
+                    {{auth.title}}</h1>
+                <md-input-container>
+                    <label>
+                        {{auth.id.title}} </label>
+                    <input ng-model="cfg[auth.id.key]"
+                           name="{{auth.id.key}}">
                 </md-input-container>
+                <md-input-container>
+                    <label>
+                        {{auth.secret.title}} </label>
+                    <input ng-model="cfg[auth.secret.key]"
+                           name="{{auth.secret.key}}">
+                </md-input-container>
+                <md-input-container>
+                    <label>
+                        {{auth.icon.title}} </label>
+                    <input ng-model="cfg[auth.icon.key]"
+                           name="{{auth.icon.key}}">
+                </md-input-container>
+                </div>
             </md-content>
         </md-tab>
         <md-tab label="Security">
-            <md-content class="md-padding"
+            <md-content layout-padding
                         md-swipe-left="next()"
                         md-swipe-right="previous()">
                 <md-input-container>
@@ -70,7 +93,7 @@
             </md-content>
         </md-tab>
         <md-tab label="Tracking">
-            <md-content class="md-padding"
+            <md-content layout-padding
                         md-swipe-left="next()"
                         md-swipe-right="previous()">
                 <md-input-container>
@@ -83,7 +106,7 @@
             </md-content>
         </md-tab>
         <md-tab label="reCAPTCHA">
-            <md-content class="md-padding"
+            <md-content layout-padding
                         md-swipe-left="next()"
                         md-swipe-right="previous()">
                 <md-input-container>

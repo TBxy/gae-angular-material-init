@@ -26,8 +26,8 @@ def send_mail_notification(subject, body, receiver=None, **kwargs):
     brand_name = config.CONFIG_DB.brand_name
     sender = '%s <%s>' % (brand_name, config.CONFIG_DB.feedback_email)
     subject = '[%s] %s' % (brand_name, subject)
-    if config.DEVELOPMENT:
-        logging.info(
+    if config.DEVELOPMENT or True:
+        logging.debug(
             '\n'
             '######### Deferring to send this email: #############################'
             '\nFrom: %s\nTo: %s\nSubject: %s\n\n%s\n'
@@ -52,7 +52,7 @@ def new_user_notification(user_db):
         ''.join([': '.join(('%s\n' % a).split('_')) for a in user_db.auth_ids]),
         '%s#!/user/%s' % (flask.url_for('index', _external=True), user_db.username)
     )
-    send_mail_notification('New user: %s' % user_db.name, body)
+    send_mail_notification('New user: %s' % user_db.username, body)
 
 
 def reset_password_notification(user_db):

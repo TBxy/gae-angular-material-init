@@ -1,6 +1,7 @@
 (function() {
     var gulp = require('gulp');
     require('gulp-grunt')(gulp);
+    var moduleName = "gae-angular-material-init"
 
     var $ = require('gulp-load-plugins')();
     var watch = require('gulp-watch');
@@ -170,7 +171,7 @@
         }).pipe(templateCache('templates.js', {
             standalone : false,
             root       : '/p/modules',
-            module     : 'gae-angular-material-starter'
+            module     : moduleName
         })).pipe(gulp.dest(distDir));
     });
 
@@ -185,7 +186,7 @@
     });
 
     gulp.task('clean-cache', function(callback) {
-        del([rootDir + '/**/*.pyc', rootDir + './**/*.pyo', rootDir + './**/.*~'], callback);
+        return del([rootDir + '/**/*.pyc', rootDir + './**/*.pyo', rootDir + './**/.*~'], callback);
     });
 
     gulp.task('zip-lib', ['clean-cache'], function() {
